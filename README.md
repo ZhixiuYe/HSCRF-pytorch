@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 ### Code reference
 
-https://github.com/LiyuanLucasLiu/LM-LSTM-CRF
+[LM-LSTM-CRF](https://github.com/LiyuanLucasLiu/LM-LSTM-CRF)
 
 ## Usage
 
@@ -28,7 +28,8 @@ CUDA_VISIBLE_DEVICES=0 python train.py --char_lstm
 
 ### word embeddings
 
-Glove: https://nlp.stanford.edu/projects/glove/
+Glove: You can find the pre-trained word embedding [here](https://nlp.stanford.edu/projects/glove/),
+and place glove.6B.100d.txt in `data/`.
 
 ## Reference
 
