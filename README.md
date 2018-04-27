@@ -16,6 +16,10 @@ The code is written in Python 2.7. Its dependencies are summarized in the file `
 pip install -r requirements.txt
 ```
 
+### Code reference
+
+https://github.com/LiyuanLucasLiu/LM-LSTM-CRF
+
 ## Usage
 
 ```
