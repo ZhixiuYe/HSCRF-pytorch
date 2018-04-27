@@ -1,8 +1,6 @@
 from __future__ import print_function
-import datetime
 import time
 import torch
-import torch.autograd as autograd
 import torch.nn as nn
 import torch.optim as optim
 import codecs
@@ -12,7 +10,6 @@ from model.model import ner_model
 from model.data_packer import Repack
 
 import argparse
-import json
 import os
 import sys
 from tqdm import tqdm
