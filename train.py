@@ -18,8 +18,8 @@ import functools
 import numpy as np
 
 
-# seed = int(np.random.uniform(0,1)*10000000)
-seed = 2556669
+seed = int(np.random.uniform(0,1)*10000000)
+# seed = 2556669
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -56,10 +56,9 @@ if __name__ == "__main__":
     parser.add_argument('--mini_count', type=float, default=5, help='thresholds to replace rare words with <unk>')
     parser.add_argument('--high_way', action='store_false', help='use highway layers')
     parser.add_argument('--highway_layers', type=int, default=1, help='number of highway layers')
-    parser.add_argument('--eva_matrix', choices=['a', 'fa'], default='fa', help='use f1 and accuracy or accuracy alone')
     parser.add_argument('--shrink_embedding', action='store_true', help='shrink the embedding dictionary to corpus (open this if pre-trained embedding dictionary is too large, but disable this may yield better results on external corpus)')
     parser.add_argument('--model_name', default='HSCRF', help='model name')
-    parser.add_argument('--char_lstm', action='store_false', help='use lstm for characters embedding or not')
+    parser.add_argument('--char_lstm', action='store_true', help='use lstm for characters embedding or not')
     parser.add_argument('--allowspan', type=int, default=6, help='allowed max segment length')
     parser.add_argument('--grconv', action='store_true', help='use grconv')
 
@@ -201,21 +200,6 @@ if __name__ == "__main__":
 
         utils.adjust_learning_rate(optimizer, args.lr / (1 + (args.start_epoch + 1) * args.lr_decay))
 
-        try:
-            utils.save_checkpoint({
-                'epoch': args.start_epoch,
-                'state_dict': model.state_dict(),
-                'optimizer': optimizer.state_dict(),
-                'f_map': f_map,
-                'c_map': c_map,
-                'SCRF_l_map': SCRF_l_map,
-                'CRF_l_map': CRF_l_map,
-                'in_doc_words': in_doc_words,
-                'ALLOW_SPANLEN': args.allowspan
-            }, {'args': vars(args)
-                }, args.checkpoint + str(seed))
-        except Exception as inst:
-            print(inst)
 
         dev_f1_crf, dev_pre_crf, dev_rec_crf, dev_acc_crf, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_jnt, dev_pre_jnt, dev_rec_jnt, dev_acc_jnt = \
                 evaluator.calc_score(model, dev_dataset_loader)
@@ -234,7 +218,21 @@ if __name__ == "__main__":
                 best_dev_f1_jnt = dev_f1_jnt
                 best_test_f1_jnt = test_f1_jnt
 
-
+            try:
+                utils.save_checkpoint({
+                        'epoch': args.start_epoch,
+                        'state_dict': model.state_dict(),
+                        'optimizer': optimizer.state_dict(),
+                        'f_map': f_map,
+                        'c_map': c_map,
+                        'SCRF_l_map': SCRF_l_map,
+                        'CRF_l_map': CRF_l_map,
+                        'in_doc_words': in_doc_words,
+                        'ALLOW_SPANLEN': args.allowspan
+                    }, {'args': vars(args)
+                        }, args.checkpoint + str(seed))
+            except Exception as inst:
+                    print(inst)
 
 
         print('best_test_f1_crf is: %.4f' % (best_test_f1_crf))
