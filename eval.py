@@ -1,27 +1,13 @@
 from __future__ import print_function
-import datetime
-import time
 import torch
-import torch.autograd as autograd
-import torch.nn as nn
-import torch.optim as optim
 import codecs
-# from model.crf import *
-# from model.lm_lstm_crf import *
 import model.utils as utils
 from model.evaluator import evaluator
 from model.model import ner_model
-# from model.SemiCRF import SemiCRF
 from model.data_packer import Repack
-
 
 import argparse
 import json
-import os
-import sys
-from tqdm import tqdm
-import itertools
-import functools
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluating LM-BLSTM-CRF')
@@ -89,11 +75,6 @@ if __name__ == "__main__":
     print('test...')
     test_f1, test_pre, test_rec, test_acc, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_final, test_pre_final, test_rec_final, test_acc_final = \
             evaluator.calc_score(model, test_dataset_loader)
-
-    # print(fcrfs)
-    # print(fscrfs)
-    # print(f_jnts)
-
 
     print(' test_f1: %.4f\n' %
               (test_f1))
