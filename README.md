@@ -10,7 +10,7 @@ The code is based on PyTorch. You can find installation instructions [here](http
 
 ### Dependencies
 
-The code is written in Python 2.7. Its dependencies are summarized in the file ```requirements.txt```. You can install these dependencies like this:
+The code is written in Python 2.7 and pytorch 0.2.0. Its dependencies are summarized in the file ```requirements.txt```. You can install these dependencies like this:
 
 ```
 pip install -r requirements.txt
