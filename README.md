@@ -11,7 +11,8 @@ The code is based on PyTorch. You can find installation instructions [here](http
 ### Dependencies
 
 The code is written in Python 2.7. Its dependencies are summarized in the file ```requirements.txt```. You can install these dependencies like this:
-```
+
+``
 pip install -r requirements.txt
 ```
 
@@ -19,8 +20,11 @@ pip install -r requirements.txt
 
 ```
 CUDA_VISIBLE_DEVICES=0 python train.py --char_lstm
-
 ```
+
+### word embeddings
+
+Glove: https://nlp.stanford.edu/projects/glove/
 
 ## Reference
 
