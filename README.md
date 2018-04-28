@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```
-CUDA_VISIBLE_DEVICES=0 python train.py --char_lstm
+CUDA_VISIBLE_DEVICES=0 python train.py --char_lstm --high_way
 ```
 
 ### word embeddings

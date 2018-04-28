@@ -54,7 +54,7 @@ if __name__ == "__main__":
     parser.add_argument('--momentum', type=float, default=0.9, help='momentum for sgd')
     parser.add_argument('--clip_grad', type=float, default=5.0, help='clip grad at')
     parser.add_argument('--mini_count', type=float, default=5, help='thresholds to replace rare words with <unk>')
-    parser.add_argument('--high_way', action='store_false', help='use highway layers')
+    parser.add_argument('--high_way', action='store_true', help='use highway layers')
     parser.add_argument('--highway_layers', type=int, default=1, help='number of highway layers')
     parser.add_argument('--shrink_embedding', action='store_true', help='shrink the embedding dictionary to corpus (open this if pre-trained embedding dictionary is too large, but disable this may yield better results on external corpus)')
     parser.add_argument('--model_name', default='HSCRF', help='model name')
