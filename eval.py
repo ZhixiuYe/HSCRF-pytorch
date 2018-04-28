@@ -14,7 +14,6 @@ if __name__ == "__main__":
     parser.add_argument('--load_arg', default='./checkpoint/2556669.json', help='path to arg json')
     parser.add_argument('--load_check_point', default='./checkpoint/2556669.model',
                         help='path to model checkpoint file')
-    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
     parser.add_argument('--dev_file', default='data/eng.testa',
                         help='path to development file, if set to none, would use dev_file path in the checkpoint file')
     parser.add_argument('--test_file', default='data/eng.testb',
@@ -70,22 +69,22 @@ if __name__ == "__main__":
 
 
     print('dev...')
-    dev_f1, dev_pre, dev_rec, dev_acc, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_final, dev_pre_final, dev_rec_final, dev_acc_final = \
+    dev_f1, dev_pre, dev_rec, dev_acc, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_jnt, dev_pre_jnt, dev_rec_jnt, dev_acc_jnt = \
             evaluator.calc_score(model, dev_dataset_loader)
     print('test...')
-    test_f1, test_pre, test_rec, test_acc, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_final, test_pre_final, test_rec_final, test_acc_final = \
+    test_f1, test_pre, test_rec, test_acc, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_jnt, test_pre_jnt, test_rec_jnt, test_acc_jnt = \
             evaluator.calc_score(model, test_dataset_loader)
 
     print(' test_f1: %.4f\n' %
               (test_f1))
     print(' test_f1_scrf: %.4f\n' %
               (test_f1_scrf))
-    print(' test_f1_final: %.4f\n' %
-              (test_f1_final))
+    print(' test_f1_jnt: %.4f\n' %
+              (test_f1_jnt))
 
     print(' dev_f1: %.4f\n' %
               (dev_f1))
     print(' dev_f1_scrf: %.4f\n' %
           (dev_f1_scrf))
     print(' dev_f1_final: %.4f\n' %
-              (dev_f1_final))
+              (dev_f1_jnt))
