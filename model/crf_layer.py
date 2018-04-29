@@ -44,8 +44,8 @@ class CRF(nn.Module):
         sentlen = feats.size(0)
         batch_size = feats.size(1)
         crf_scores = self.hidden2tag(feats).view(-1, self.tagset_size, self.tagset_size)
-        crf_scores = crf_scores.view(sentlen, batch_size, self.tagset_size, self.tagset_size)
-        return crf_scores
+        self.crf_scores = crf_scores.view(sentlen, batch_size, self.tagset_size, self.tagset_size)
+        return self.crf_scores
 
     def forward(self, feats, target, mask):
         """

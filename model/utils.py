@@ -720,12 +720,18 @@ def scrf_to_crf(decoded_scrf, l_map):
     scrf labels to crf labels
 
     """
-
     label_size = len(l_map)
     crf_labels = []
     pad_label = l_map['<pad>']
     for i_l in decoded_scrf:
-        crf_labels.append([l_map['<start>']] + [l_map[i] if i in l_map else l_map['O'] for i in i_l])
+        sent_labels = [l_map['<start>']]
+        for label in i_l:
+            if label != l_map['<pad>']:
+                sent_labels.append(label)
+            else:
+                break
+        crf_labels.append(sent_labels)
+
     crfdata = []
     masks = []
     maxl_1 = max([len(i) for i in crf_labels])
@@ -784,7 +790,7 @@ def rescored_with_scrf(decoded_crf, r_l_map, SCRF_l_map, decoder_scrf):
 
     """
     scrfdata, masks = crf_to_scrf(decoded_crf, r_l_map, SCRF_l_map)
-    scrf_batch_score = decoder_scrf.get_logloss_numerator(scrfdata, decoder_scrf.factor_exprs.data, masks)
+    scrf_batch_score = decoder_scrf.get_logloss_numerator(scrfdata, decoder_scrf.SCRF_scores.data, masks)
     masks = masks.sum(1)
     scrf_batch_score = scrf_batch_score.cpu().numpy()
     crf_result_scored_by_scrf = []
@@ -813,6 +819,7 @@ def rescored_with_crf(decoded_scrf, l_map, scores):
         end = start + mask
         scrf_result_scored_by_crf.append(crf_batch_score[start:end].sum())
         start = end
-    scrf_result_scored_by_crf = np.array(scrf_result_scored_by_crf)
+
+    scrf_result_scored_by_crf = torch.cat(scrf_result_scored_by_crf).cpu().data.numpy()
     return scrf_result_scored_by_crf
 

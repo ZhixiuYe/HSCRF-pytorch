@@ -184,8 +184,8 @@ class HSCRF(nn.Module):
         return self.toSCRF(scores).unsqueeze(3) + self.transition.unsqueeze(0).unsqueeze(0).unsqueeze(0)
 
     def HSCRF_scores(self, feats):
-
-        """## TODO: need to improve
+        ## TODO: need to improve
+        """
         calculate SCRF scores with HSCRF
 
         args:
@@ -292,10 +292,10 @@ class HSCRF(nn.Module):
         self.sent_len = feats.size(1)
         feats = self.dense(feats)
         if self.grconv:
-            self.factor_exprs = self.grConv_scores(feats)
+            self.SCRF_scores = self.grConv_scores(feats)
         else:
-            self.factor_exprs = self.HSCRF_scores(feats)
-        batch_spans, batch_scores = self.decode(self.factor_exprs, mask)
+            self.SCRF_scores = self.HSCRF_scores(feats)
+        batch_spans, batch_scores = self.decode(self.SCRF_scores, mask)
         batch_answer = self.tuple_to_seq(batch_spans)
         return batch_answer, np.array(batch_scores)
 

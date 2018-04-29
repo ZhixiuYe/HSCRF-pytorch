@@ -9,11 +9,6 @@ class evaluator():
     """
     evaluation class for ner task
 
-    args:
-        packer: provide method to convert target into original space [TODO: need to improve]
-        l_map: dictionary for labels
-        score_type: use f1score with using 'f'
-
     """
 
     def __init__(self, packer, l_map, SCRF_l_map):
@@ -155,7 +150,7 @@ class evaluator():
 
 
     def calc_score(self, ner_model, dataset_loader):
-        # TODO: need to improve
+        ## TODO: need to improve
         """
         calculate F1 score for dev and test sets
 
@@ -189,13 +184,7 @@ class evaluator():
                 decoded_jnt = []
 
                 crf_result_scored_by_scrf = utils.rescored_with_scrf(decoded_crf, self.r_l_map, self.SCRF_l_map, ner_model.hscrf)
-                scrf_result_scored_by_crf = utils.rescored_with_crf(decoded_scrf, self.l_map, ner_model.crf.cal_score(word_representations))
-
-
-                crf_result_scored_by_crf = crf_result_scored_by_crf.data
-                crf_result_scored_by_scrf = crf_result_scored_by_scrf.data
-                scrf_result_scored_by_crf = scrf_result_scored_by_crf.data
-                scrf_result_scored_by_scrf = scrf_result_scored_by_scrf.data
+                scrf_result_scored_by_crf = utils.rescored_with_crf(decoded_scrf, self.l_map, ner_model.crf.crf_scores)
 
                 crfscores = crf_result_scored_by_crf + crf_result_scored_by_scrf
                 scrfscores = scrf_result_scored_by_crf + scrf_result_scored_by_scrf

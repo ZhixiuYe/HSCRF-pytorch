@@ -11,8 +11,8 @@ import json
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluating LM-BLSTM-CRF')
-    parser.add_argument('--load_arg', default='./checkpoint/2556669.json', help='path to arg json')
-    parser.add_argument('--load_check_point', default='./checkpoint/2556669.model',
+    parser.add_argument('--load_arg', default='./checkpoint/5819609.json', help='path to arg json')
+    parser.add_argument('--load_check_point', default='./checkpoint/5819609.model',
                         help='path to model checkpoint file')
     parser.add_argument('--dev_file', default='data/eng.testa',
                         help='path to development file, if set to none, would use dev_file path in the checkpoint file')
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     dev_dataset = utils.construct_bucket_mean_vb_wc(dev_features, dev_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], ALLOW_SPANLEN=jd['allowspan'], train_set=False)
     test_dataset = utils.construct_bucket_mean_vb_wc(test_features, test_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], ALLOW_SPANLEN=jd['allowspan'], train_set=False)
 
-    dev_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in dev_dataset]
-    test_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in test_dataset]
+    dev_dataset_loader = [torch.utils.data.DataLoader(tup, 10, shuffle=False, drop_last=False) for tup in dev_dataset]
+    test_dataset_loader = [torch.utils.data.DataLoader(tup, 10, shuffle=False, drop_last=False) for tup in test_dataset]
 
     print('build model')
     model = ner_model(jd['word_embedding_dim'], jd['word_hidden_dim'], jd['word_lstm_layers'],
@@ -69,22 +69,18 @@ if __name__ == "__main__":
 
 
     print('dev...')
-    dev_f1, dev_pre, dev_rec, dev_acc, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_jnt, dev_pre_jnt, dev_rec_jnt, dev_acc_jnt = \
+    dev_f1_crf, dev_pre_crf, dev_rec_crf, dev_acc_crf, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_jnt, dev_pre_jnt, dev_rec_jnt, dev_acc_jnt = \
             evaluator.calc_score(model, dev_dataset_loader)
     print('test...')
-    test_f1, test_pre, test_rec, test_acc, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_jnt, test_pre_jnt, test_rec_jnt, test_acc_jnt = \
+    test_f1_crf, test_pre_crf, test_rec_crf, test_acc_crf, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_jnt, test_pre_jnt, test_rec_jnt, test_acc_jnt = \
             evaluator.calc_score(model, test_dataset_loader)
 
-    print(' test_f1: %.4f\n' %
-              (test_f1))
-    print(' test_f1_scrf: %.4f\n' %
-              (test_f1_scrf))
-    print(' test_f1_jnt: %.4f\n' %
-              (test_f1_jnt))
+    print(' dev_f1: %.4f\n' % (dev_f1_crf))
+    print(' dev_f1_scrf: %.4f\n' % (dev_f1_scrf))
+    print(' dev_f1_jnt: %.4f\n' % (dev_f1_jnt))
 
-    print(' dev_f1: %.4f\n' %
-              (dev_f1))
-    print(' dev_f1_scrf: %.4f\n' %
-          (dev_f1_scrf))
-    print(' dev_f1_final: %.4f\n' %
-              (dev_f1_jnt))
+    print(' test_f1: %.4f\n' % (test_f1_crf))
+    print(' test_f1_scrf: %.4f\n' % (test_f1_scrf))
+    print(' test_f1_jnt: %.4f\n' % (test_f1_jnt))
+
+
