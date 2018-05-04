@@ -19,7 +19,7 @@ import numpy as np
 
 
 seed = int(np.random.uniform(0,1)*10000000)
-# seed = 2556669
+# seed = 2275182
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -204,19 +204,15 @@ if __name__ == "__main__":
         dev_f1_crf, dev_pre_crf, dev_rec_crf, dev_acc_crf, dev_f1_scrf, dev_pre_scrf, dev_rec_scrf, dev_acc_scrf, dev_f1_jnt, dev_pre_jnt, dev_rec_jnt, dev_acc_jnt = \
                 evaluator.calc_score(model, dev_dataset_loader)
 
-        if dev_f1_crf > best_dev_f1_crf or dev_f1_scrf > best_dev_f1_scrf or dev_f1_jnt > best_dev_f1_jnt:
+        if dev_f1_jnt > best_dev_f1_jnt:
             test_f1_crf, test_pre_crf, test_rec_crf, test_acc_crf, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_jnt, test_pre_jnt, test_rec_jnt, test_acc_jnt = \
                         evaluator.calc_score(model, test_dataset_loader)
 
-            if dev_f1_crf > best_dev_f1_crf:
-                best_dev_f1_crf = dev_f1_crf
-                best_test_f1_crf = test_f1_crf
-            if dev_f1_scrf > best_dev_f1_scrf:
-                best_dev_f1_scrf = dev_f1_scrf
-                best_test_f1_scrf = test_f1_scrf
-            if dev_f1_jnt > best_dev_f1_jnt:
-                best_dev_f1_jnt = dev_f1_jnt
-                best_test_f1_jnt = test_f1_jnt
+            best_test_f1_crf = test_f1_crf
+            best_test_f1_scrf = test_f1_scrf
+
+            best_dev_f1_jnt = dev_f1_jnt
+            best_test_f1_jnt = test_f1_jnt
 
             try:
                 utils.save_checkpoint({

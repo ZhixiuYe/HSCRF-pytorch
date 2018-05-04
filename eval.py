@@ -11,8 +11,8 @@ import json
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluating LM-BLSTM-CRF')
-    parser.add_argument('--load_arg', default='./checkpoint/5819609.json', help='path to arg json')
-    parser.add_argument('--load_check_point', default='./checkpoint/5819609.model',
+    parser.add_argument('--load_arg', default='./checkpoint/6365035.json', help='path to arg json')
+    parser.add_argument('--load_check_point', default='./checkpoint/6365035.model',
                         help='path to model checkpoint file')
     parser.add_argument('--dev_file', default='data/eng.testa',
                         help='path to development file, if set to none, would use dev_file path in the checkpoint file')
@@ -43,20 +43,19 @@ if __name__ == "__main__":
     dev_features, dev_labels = utils.read_corpus(dev_lines)
     test_features, test_labels = utils.read_corpus(test_lines)
 
-    dev_dataset = utils.construct_bucket_mean_vb_wc(dev_features, dev_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], ALLOW_SPANLEN=jd['allowspan'], train_set=False)
-    test_dataset = utils.construct_bucket_mean_vb_wc(test_features, test_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], ALLOW_SPANLEN=jd['allowspan'], train_set=False)
+    dev_dataset = utils.construct_bucket_mean_vb_wc(dev_features, dev_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], train_set=False)
+    test_dataset = utils.construct_bucket_mean_vb_wc(test_features, test_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], train_set=False)
 
-    dev_dataset_loader = [torch.utils.data.DataLoader(tup, 10, shuffle=False, drop_last=False) for tup in dev_dataset]
-    test_dataset_loader = [torch.utils.data.DataLoader(tup, 10, shuffle=False, drop_last=False) for tup in test_dataset]
+    dev_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in dev_dataset]
+    test_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in test_dataset]
 
     print('build model')
     model = ner_model(jd['word_embedding_dim'], jd['word_hidden_dim'], jd['word_lstm_layers'],
-                      len(f_map), len(c_map), jd['char_embedding_dim'],
-                      jd['char_lstm_hidden_dim'], jd['cnn_filter_num'], jd['char_lstm_layers'],
-                      jd['char_lstm'],
-                      jd['dropout_ratio'], jd['high_way'], jd['highway_layers'],
-                      CRF_l_map['<start>'], CRF_l_map['<pad>'], len(CRF_l_map), SCRF_l_map, jd['scrf_dense_dim'],
-                      in_doc_words, jd['index_embeds_dim'], jd['allowspan'], SCRF_l_map['<START>'], SCRF_l_map['<STOP>'],
+                      len(f_map), len(c_map), jd['char_embedding_dim'], jd['char_lstm_hidden_dim'],
+                      jd['cnn_filter_num'], jd['char_lstm_layers'], jd['char_lstm'],jd['dropout_ratio'],
+                      jd['high_way'], jd['highway_layers'], CRF_l_map['<start>'], CRF_l_map['<pad>'],
+                      len(CRF_l_map), SCRF_l_map, jd['scrf_dense_dim'], in_doc_words,
+                      jd['index_embeds_dim'], jd['allowspan'], SCRF_l_map['<START>'], SCRF_l_map['<STOP>'],
                       jd['grconv'])
 
     print('load model')

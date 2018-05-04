@@ -136,8 +136,8 @@ class evaluator():
         """
         total_labels = len(best_path)
         correct_labels = np.sum(np.equal(best_path, gold))
+
         gold_chunks = utils.iobes_to_spans(gold, self.r_l_map)
-        # assert False
         gold_count = len(gold_chunks)
 
         guess_chunks = utils.iobes_to_spans(best_path, self.r_l_map)
