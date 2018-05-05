@@ -38,6 +38,8 @@ if __name__ == "__main__":
     parser.add_argument('--word_hidden_dim', type=int, default=300, help='dimension of word-level lstm layer')
     parser.add_argument('--dropout_ratio', type=float, default=0.55, help='dropout ratio')
     parser.add_argument('--epoch', type=int, default=150, help='maximum epoch number')
+    parser.add_argument('--least_epoch', type=int, default=75, help='minimum epoch number')
+    parser.add_argument('--early_stop', type=int, default=15, help='early stop epoch number')
     parser.add_argument('--start_epoch', type=int, default=0, help='start point of epoch')
     parser.add_argument('--checkpoint', default='./checkpoint/', help='checkpoint path')
     parser.add_argument('--word_embedding_dim', type=int, default=100, help='dimension of word embedding')
@@ -122,10 +124,9 @@ if __name__ == "__main__":
     test_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in test_dataset]
 
     print('building model')
-    model = ner_model(args.word_embedding_dim, args.word_hidden_dim, args.word_lstm_layers,
-                      len(f_map), len(c_map), args.char_embedding_dim,
-                      args.char_lstm_hidden_dim, args.cnn_filter_num, args.char_lstm_layers, args.char_lstm,
-                      args.dropout_ratio, args.high_way, args.highway_layers,
+    model = ner_model(args.word_embedding_dim, args.word_hidden_dim, args.word_lstm_layers, len(f_map),
+                      len(c_map), args.char_embedding_dim, args.char_lstm_hidden_dim, args.cnn_filter_num,
+                      args.char_lstm_layers, args.char_lstm, args.dropout_ratio, args.high_way, args.highway_layers,
                       CRF_l_map['<start>'], CRF_l_map['<pad>'], len(CRF_l_map), SCRF_l_map, args.scrf_dense_dim,
                       in_doc_words,args.index_embeds_dim, args.allowspan, SCRF_l_map['<START>'], SCRF_l_map['<STOP>'], args.grconv)
 
@@ -147,13 +148,12 @@ if __name__ == "__main__":
 
     tot_length = sum(map(lambda t: len(t), dataset_loader))
 
-    best_dev_f1_crf = float('-inf')
-    best_dev_f1_scrf = float('-inf')
     best_dev_f1_jnt = float('-inf')
     best_test_f1_crf = float('-inf')
     best_test_f1_scrf = float('-inf')
     best_test_f1_jnt = float('-inf')
     start_time = time.time()
+    early_stop_epochs = 0
     epoch_list = range(args.start_epoch, args.start_epoch + args.epoch)
 
     evaluator = evaluator(packer, CRF_l_map, SCRF_l_map)
@@ -205,6 +205,7 @@ if __name__ == "__main__":
                 evaluator.calc_score(model, dev_dataset_loader)
 
         if dev_f1_jnt > best_dev_f1_jnt:
+            early_stop_epochs = 0
             test_f1_crf, test_pre_crf, test_rec_crf, test_acc_crf, test_f1_scrf, test_pre_scrf, test_rec_scrf, test_acc_scrf, test_f1_jnt, test_pre_jnt, test_rec_jnt, test_acc_jnt = \
                         evaluator.calc_score(model, test_dataset_loader)
 
@@ -230,6 +231,8 @@ if __name__ == "__main__":
             except Exception as inst:
                     print(inst)
 
+        else:
+            early_stop_epochs += 1
 
         print('best_test_f1_crf is: %.4f' % (best_test_f1_crf))
         print('best_test_f1_scrf is: %.4f' % (best_test_f1_scrf))
@@ -239,6 +242,9 @@ if __name__ == "__main__":
             time.time() - start_time) + ' s')
 
         sys.stdout.flush()
+
+        if early_stop_epochs >= args.early_stop and epoch_idx > args.least_epoch:
+            break
 
 
     print('setting:')
