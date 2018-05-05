@@ -18,8 +18,8 @@ import functools
 import numpy as np
 
 
-seed = int(np.random.uniform(0,1)*10000000)
-# seed = 2275182
+# seed = int(np.random.uniform(0,1)*10000000)
+seed = 5703958
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     parser.add_argument('--dropout_ratio', type=float, default=0.55, help='dropout ratio')
     parser.add_argument('--epoch', type=int, default=150, help='maximum epoch number')
     parser.add_argument('--least_epoch', type=int, default=75, help='minimum epoch number')
-    parser.add_argument('--early_stop', type=int, default=15, help='early stop epoch number')
+    parser.add_argument('--early_stop', type=int, default=10, help='early stop epoch number')
     parser.add_argument('--start_epoch', type=int, default=0, help='start point of epoch')
     parser.add_argument('--checkpoint', default='./checkpoint/', help='checkpoint path')
     parser.add_argument('--word_embedding_dim', type=int, default=100, help='dimension of word embedding')
