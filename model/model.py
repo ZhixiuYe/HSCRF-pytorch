@@ -1,5 +1,4 @@
 from __future__ import print_function, division
-
 import torch.nn as nn
 from word_rep_layer import WORD_REP
 from crf_layer import CRF

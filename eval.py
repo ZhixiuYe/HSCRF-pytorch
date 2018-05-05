@@ -1,13 +1,13 @@
 from __future__ import print_function
 import torch
 import codecs
+import argparse
+import json
+
 import model.utils as utils
 from model.evaluator import evaluator
 from model.model import ner_model
 from model.data_packer import Repack
-
-import argparse
-import json
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluating LM-BLSTM-CRF')

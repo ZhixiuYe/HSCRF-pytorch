@@ -9,7 +9,9 @@ import torch.nn as nn
 import torch.nn.init
 from data_packer import CRFDataset_WC
 
+
 zip = getattr(itertools, 'izip', zip)
+
 
 def to_scalar(var):
     """change the first element of a tensor to scalar

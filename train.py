@@ -4,11 +4,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import codecs
-import model.utils as utils
-from model.evaluator import evaluator
-from model.model import ner_model
-from model.data_packer import Repack
-
 import argparse
 import os
 import sys
@@ -16,6 +11,11 @@ from tqdm import tqdm
 import itertools
 import functools
 import numpy as np
+
+import model.utils as utils
+from model.evaluator import evaluator
+from model.model import ner_model
+from model.data_packer import Repack
 
 
 # seed = int(np.random.uniform(0,1)*10000000)

@@ -264,5 +264,3 @@ class WORD_REP(nn.Module):
             return self.lm_lstm(forw_sentence, forw_position, back_sentence, back_position, word_seq)
         else:
             return self.cnn_lstm(word_seq, cnn_features)
-
-

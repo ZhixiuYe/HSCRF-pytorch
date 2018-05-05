@@ -1,6 +1,7 @@
 import torch.nn as nn
 import utils
 
+
 class hw(nn.Module):
     """
     Highway layers

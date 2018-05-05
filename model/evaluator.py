@@ -150,7 +150,7 @@ class evaluator():
 
 
     def calc_score(self, ner_model, dataset_loader):
-        ## TODO: need to improve
+        ### TODO: need to improve
         """
         calculate F1 score for dev and test sets
 

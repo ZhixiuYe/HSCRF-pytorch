@@ -27,6 +27,7 @@ class Repack:
             SCRF_labels      (Batch_size, Word_Seq_len, 4)  : Semi-CRF labels
             mask_SCRF_laebls (Batch_size, Word_Seq_len) : mask of Semi-CRF labels
             cnn_features     (Batch_size, Word_Seq_len, Word_len): characters features for cnn
+
         return:
             f_f (Char_Reduced_Seq_len, Batch_size),
             f_p (Word_Reduced_Seq_len, Batch_size),

@@ -184,7 +184,7 @@ class HSCRF(nn.Module):
         return self.toSCRF(scores).unsqueeze(3) + self.transition.unsqueeze(0).unsqueeze(0).unsqueeze(0)
 
     def HSCRF_scores(self, feats):
-        ## TODO: need to improve
+        ### TODO: need to improve
         """
         calculate SCRF scores with HSCRF
 

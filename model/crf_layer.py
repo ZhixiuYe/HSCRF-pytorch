@@ -32,6 +32,7 @@ class CRF(nn.Module):
         random initialization
 
         """
+
         utils.init_linear(self.hidden2tag)
 
     def cal_score(self, feats):
