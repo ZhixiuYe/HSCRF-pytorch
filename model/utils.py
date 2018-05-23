@@ -433,26 +433,28 @@ def construct_bucket_mean_vb_wc(word_features, input_label, label_dict, SCRF_lab
     forw_features = concatChar(char_features, char_dict)
     new_labels = list(map(lambda t: [label_dict['<start>']] + list(t), new_labels))
     thresholds = calc_threshold_mean(fea_len)
-
     new_word_features = list(map(lambda t: list(map(lambda x: x.lower(), t)), new_word_features))
     new_word_features = encode_safe(new_word_features, word_dict, word_dict['<unk>'])
-
     dataset = construct_bucket_vb_wc(new_word_features, forw_features, fea_len, new_labels, new_SCRFlabels, char_features,
                                   thresholds, word_dict['<eof>'], char_dict['\n'],
                                   label_dict['<pad>'], len(label_dict), SCRF_stop_tag)
 
-    if nolycrf_word_features:
-        nolycrf_char_features = encode2char_safe(nolycrf_word_features, char_dict)
-        nolycrf_fea_len = [list(map(lambda t: len(t) + 1, f)) for f in nolycrf_char_features]
-        nolycrf_forw_features = concatChar(nolycrf_char_features, char_dict)
-        nolycrf_labels = list(map(lambda t: [label_dict['<start>']] + list(t), nolycrf_labels))
-        nolycrf_thresholds = calc_threshold_mean(nolycrf_fea_len)
-        nolycrf_word_features = list(map(lambda t: list(map(lambda x: x.lower(), t)), nolycrf_word_features))
-        nolycrf_word_features = encode_safe(nolycrf_word_features, word_dict, word_dict['<unk>'])
-        nolycrf_dataset = construct_bucket_vb_wc(nolycrf_word_features, nolycrf_forw_features, nolycrf_fea_len, nolycrf_labels, nolycrf_SCRFlabels, nolycrf_char_features,
-                                                                                       nolycrf_thresholds, word_dict['<eof>'], char_dict['\n'],
-                                                                                       label_dict['<pad>'], len(label_dict), SCRF_stop_tag)
-        return dataset, nolycrf_dataset
+    if train_set:
+        if nolycrf_word_features:
+            nolycrf_char_features = encode2char_safe(nolycrf_word_features, char_dict)
+            nolycrf_fea_len = [list(map(lambda t: len(t) + 1, f)) for f in nolycrf_char_features]
+            nolycrf_forw_features = concatChar(nolycrf_char_features, char_dict)
+            nolycrf_labels = list(map(lambda t: [label_dict['<start>']] + list(t), nolycrf_labels))
+            nolycrf_thresholds = [max(list(map(lambda t: len(t) + 1, nolycrf_fea_len)))]
+            nolycrf_word_features = list(map(lambda t: list(map(lambda x: x.lower(), t)), nolycrf_word_features))
+            nolycrf_word_features = encode_safe(nolycrf_word_features, word_dict, word_dict['<unk>'])
+            nolycrf_dataset = construct_bucket_vb_wc(nolycrf_word_features, nolycrf_forw_features, nolycrf_fea_len,
+                                                     nolycrf_labels, nolycrf_SCRFlabels, nolycrf_char_features,
+                                                     nolycrf_thresholds, word_dict['<eof>'], char_dict['\n'],
+                                                     label_dict['<pad>'], len(label_dict), SCRF_stop_tag)
+            return dataset, nolycrf_dataset
+        else:
+            return dataset, None
     else:
         return dataset
 

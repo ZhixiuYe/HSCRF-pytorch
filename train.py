@@ -119,7 +119,7 @@ if __name__ == "__main__":
     test_dataset = utils.construct_bucket_mean_vb_wc(test_features, test_labels, CRF_l_map, SCRF_l_map, c_map, f_map, SCRF_stop_tag=SCRF_l_map['<STOP>'], train_set=False)
 
     dataset_loader = [torch.utils.data.DataLoader(tup, args.batch_size, shuffle=True, drop_last=False) for tup in dataset]
-    dataset_loader_crf = [torch.utils.data.DataLoader(tup, 3, shuffle=True, drop_last=False) for tup in dataset_onlycrf]
+    dataset_loader_crf = [torch.utils.data.DataLoader(tup, 3, shuffle=True, drop_last=False) for tup in dataset_onlycrf] if dataset_onlycrf else None
     dev_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in dev_dataset]
     test_dataset_loader = [torch.utils.data.DataLoader(tup, 50, shuffle=False, drop_last=False) for tup in test_dataset]
 
@@ -162,8 +162,8 @@ if __name__ == "__main__":
 
         epoch_loss = 0
         model.train()
-
-        for f_f, f_p, b_f, b_p, w_f, tg_v, mask_v, len_v, SCRF_labels, mask_SCRF_labels, cnn_features in tqdm(
+        if dataset_loader_crf:
+            for f_f, f_p, b_f, b_p, w_f, tg_v, mask_v, len_v, SCRF_labels, mask_SCRF_labels, cnn_features in tqdm(
                 itertools.chain.from_iterable(dataset_loader_crf), mininterval=2,
                 desc=' - Tot it %d (epoch %d)' % (tot_length, args.start_epoch), leave=False, file=sys.stderr):
 
