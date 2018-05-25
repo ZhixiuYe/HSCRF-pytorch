@@ -188,7 +188,7 @@ class WORD_REP(nn.Module):
         cnn_features = self.char_embeds(cnn_features).view(cnn_features.size(0), 1, cnn_features.size(1), -1)
         cnn_features = self.cnn(cnn_features)
         d_char_out = nn.functional.max_pool2d(cnn_features,
-                                              kernel_size=(cnn_features.size(2), 1)).view(-1, self.batch_size, 30)
+                                              kernel_size=(cnn_features.size(2), 1)).view(self.word_seq_length, self.batch_size, self.cnn_filter_num)
         word_emb = self.word_embeds(word_seq)
 
         word_input = torch.cat((word_emb, d_char_out), dim=2)
