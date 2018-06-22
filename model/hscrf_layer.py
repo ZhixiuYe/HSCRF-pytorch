@@ -28,7 +28,7 @@ class HSCRF(nn.Module):
         self.dense = nn.Linear(word_rep_dim, self.SCRF_feature_dim)
         self.init_linear(self.dense)
 
-        # 4 for BIES and 2 for O and begin
+        # 4 for SBIE, 3 for START, STOP, O and 2 for START and O
         self.CRF_tagset_size = 4*(self.tagset_size-3)+2
 
         self.transition = nn.Parameter(
