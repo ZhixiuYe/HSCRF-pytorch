@@ -197,7 +197,9 @@ class HSCRF(nn.Module):
         validtag_size = self.tagset_size-3
         scores = Variable(torch.zeros(self.batch_size, self.sent_len, self.sent_len, self.tagset_size, self.tagset_size)).cuda()
         diag0 = torch.LongTensor(range(self.sent_len)).cuda()
+        # m10000 for STOP
         m10000 = Variable(torch.FloatTensor([-10000.]).expand(self.batch_size, self.sent_len, self.tagset_size, 1)).cuda()
+        # m30000 for STOP, START, O
         m30000 = Variable(torch.FloatTensor([-10000.]).expand(self.batch_size, self.sent_len, self.tagset_size, 3)).cuda()
         for span_len in range(min(self.ALLOWED_SPANLEN, self.sent_len)):
             emb_x = self.concat_features(feats, span_len)
