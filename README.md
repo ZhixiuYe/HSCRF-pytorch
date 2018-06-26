@@ -31,8 +31,17 @@ CUDA_VISIBLE_DEVICES=0 python train.py --char_lstm --high_way
 Glove: You can find the pre-trained word embedding [here](https://nlp.stanford.edu/projects/glove/),
 and place glove.6B.100d.txt in `data/`.
 
-## Reference
+## Cite
+If you use the code, please cite the following paper:
 
 ```
-TO BE ADDED
+@InProceedings{Ye-Zhixiu:2018:ACL,
+  author    = {Ye, Zhi-Xiu and Ling, Zhen-Hua},
+  title     = {Hybrid semi-Markov CRF for Neural Sequence Labeling},
+  booktitle = {Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (ACL 2018)},
+  month     = {July},
+  year      = {2018},
+  address   = {Melbourne, Australia},
+  publisher = {ACL}
+}
 ```
