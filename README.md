@@ -32,7 +32,10 @@ Glove: You can find the pre-trained word embedding [here](https://nlp.stanford.e
 and place glove.6B.100d.txt in `data/`.
 
 ## Cite
+
 If you use the code, please cite the following paper:
+**"Hybrid semi-Markov CRF for Neural Sequence Labeling"**
+Zhi-Xiu Ye, Zhen-Hua Ling. _ACL (2018)_
 
 ```
 @InProceedings{Ye-Zhixiu:2018:ACL,
