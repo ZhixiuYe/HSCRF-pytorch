@@ -40,7 +40,7 @@ Zhi-Xiu Ye, Zhen-Hua Ling. _ACL (2018)_
 ```
 @InProceedings{HSCRF,
   author = 	"Ye, Zhixiu
-		    and Ling, Zhen-Hua",
+		and Ling, Zhen-Hua",
   title = 	"Hybrid semi-Markov CRF for Neural Sequence Labeling",
   booktitle = 	"Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
   year = 	"2018",
