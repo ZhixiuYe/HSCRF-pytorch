@@ -38,13 +38,15 @@ If you use the code, please cite the following paper:
 Zhi-Xiu Ye, Zhen-Hua Ling. _ACL (2018)_
 
 ```
-@InProceedings{Ye-Zhixiu:2018:ACL,
-  author    = {Ye, Zhi-Xiu and Ling, Zhen-Hua},
-  title     = {Hybrid semi-Markov CRF for Neural Sequence Labeling},
-  booktitle = {Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (ACL 2018)},
-  month     = {July},
-  year      = {2018},
-  address   = {Melbourne, Australia},
-  publisher = {ACL}
+@InProceedings{HSCRF,
+  author = 	"Ye, Zhixiu
+		    and Ling, Zhen-Hua",
+  title = 	"Hybrid semi-Markov CRF for Neural Sequence Labeling",
+  booktitle = 	"Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+  year = 	"2018",
+  publisher = 	"Association for Computational Linguistics",
+  pages = 	"235--240",
+  location = 	"Melbourne, Australia",
+  url = 	"http://aclweb.org/anthology/P18-2038"
 }
 ```
